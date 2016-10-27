@@ -1,0 +1,471 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &182046
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 468164}
+  - 114: {fileID: 11497610}
+  m_Layer: 0
+  m_Name: RVSettingData
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &468164
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 182046}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 364.230957, y: 415.209686, z: 114.408714}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &11497610
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 182046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 591add82f37318a4fa88eda97ef36618, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgColor_selected: {r: .41568628, g: 1, b: .337254912, a: .215686277}
+  name_public: {r: 0, g: .00784313772, b: .956862748, a: 1}
+  name_private: {r: .0745098069, g: .286274523, b: .78039217, a: 1}
+  name_collection: {r: .00392156886, g: .403921574, b: .0745098069, a: 1}
+  name_collection_onSelect: {r: 0, g: .513725519, b: .113725491, a: 1}
+  name_collection_item: {r: .00392156886, g: .403921604, b: .0745098069, a: 1}
+  name_property: {r: .572549045, g: .286274523, b: 0, a: 1}
+  name_class: {r: 0, g: .368627459, b: .403921574, a: 1}
+  name_class_onSelect: {r: .0980392173, g: .521568656, b: .56078434, a: 1}
+  LowercaseLength: 7.5
+  UppercaseLength: 9
+  value_string: {r: .603921592, g: .192156866, b: .0196078438, a: 1}
+  value_digital: {r: .219607845, g: .219607845, b: .219607845, a: 1}
+  value_null: {r: .741176486, g: .109803922, b: .109803922, a: 1}
+  value_enum: {r: .725490212, g: 0, b: .737254918, a: 1}
+  value_others: {r: .0901960805, g: .0901960805, b: .0901960805, a: 1}
+  FontStyle: 1
+  ValueFontStyle: 3
+  ForbidNames:
+  - useGUILayout
+  - isActiveAndEnabled
+  - rigidbody
+  - rigidbody2D
+  - camera
+  - light
+  - animation
+  - constantForce
+  - audio
+  - guiText
+  - guiElement
+  - guiTexture
+  - hingeJoint
+  - particleEmitter
+  - particleSystem
+  - collider
+  - collider2D
+  - hideFlags
+  - worldToLocalMatrix
+  - localToWorldMatrix
+  - hasChanged
+  - guiText
+  - guiElement
+  - guiTexture
+  - collider
+  - collider2D
+  - hingeJoint
+  - particleEmitter
+  - UnityEngine
+  - hideFlags
+  - isStatic
+  - rigidbody
+  - rigidbody2D
+  - camera
+  - light
+  - constantForce
+  - audio
+  - playbackTime
+  ForbidNamesIfContains:
+  - k__BackingField
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: ForbidNames.Array.size
+      value: 38
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: textColor_public.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: textColor_public.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: textColor_public.g
+      value: .00784313772
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: textColor_public.b
+      value: .956862807
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: bgColor_public.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: bgColor_public.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: bgColor_public.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: bgColor_private.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: bgColor_container.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: textColor_private.g
+      value: .454052538
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: textColor_private.b
+      value: .948529422
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: textColor_container.r
+      value: .0196078438
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: textColor_container.g
+      value: .435294151
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: textColor_container.b
+      value: .0745098069
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: textColor_container_onSelect.r
+      value: .0666666701
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: textColor_container_onSelect.g
+      value: .662745118
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: textColor_container_onSelect.b
+      value: .145098045
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: textColor_property.g
+      value: .435294151
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: textColor_property.b
+      value: .00392156886
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: textColor_gs_value_string.r
+      value: .603921592
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: textColor_gs_value_string.g
+      value: .192156881
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: textColor_gs_value_string.b
+      value: .0196078438
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: textColor_gs_value_digital.r
+      value: .31764707
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: textColor_gs_value_digital.g
+      value: .31764707
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: textColor_gs_value_digital.b
+      value: .31764707
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: textColor_gs_value_null.r
+      value: .741176486
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: textColor_gs_value_null.g
+      value: .10980393
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: textColor_gs_value_null.b
+      value: .10980393
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: textColor_gs_value_class.r
+      value: .152941182
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: textColor_gs_value_class.g
+      value: .90196085
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: textColor_gs_value_class.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: bgColor_public.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: bgColor_private.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: bgColor_container.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: textColor_private.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: textColor_container.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: textColor_container_onSelect.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: textColor_property.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: textColor_gs_value_string.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: textColor_gs_value_digital.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: textColor_gs_value_null.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: textColor_gs_value_class.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: textColor_private.r
+      value: .244106844
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: name_public.g
+      value: .00784313772
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: name_public.b
+      value: .956862807
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: name_private.r
+      value: .24313727
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: name_private.g
+      value: .454901993
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: name_private.b
+      value: .94901967
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: name_container.r
+      value: .0196078438
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: name_container.g
+      value: .435294151
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: name_container.b
+      value: .0745098069
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: name_container_onSelect.r
+      value: .0666666701
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: name_container_onSelect.g
+      value: .662745118
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: name_container_onSelect.b
+      value: .145098045
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: value_string.r
+      value: .603921592
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: value_string.g
+      value: .192156881
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: value_string.b
+      value: .0196078438
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: value_digital.r
+      value: .220588207
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: value_digital.g
+      value: .220588207
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: value_digital.b
+      value: .220588207
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: value_null.r
+      value: .741176486
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: value_null.g
+      value: .10980393
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: value_null.b
+      value: .10980393
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: value_class.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: value_class.g
+      value: .624000013
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: value_class.b
+      value: .713235259
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: value_enum.r
+      value: .820011914
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: value_enum.g
+      value: .0427659974
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: value_enum.b
+      value: .83088237
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: LowercaseLength
+      value: 6.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: value_class.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: name_collection_item.r
+      value: .595588207
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: name_collection_item.g
+      value: .716911733
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: name_collection_item.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: name_collection_item.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: name_property.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: name_property.g
+      value: .354164809
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: name_property.b
+      value: .404411793
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: name_class.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: name_class.g
+      value: .546298146
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: name_class.b
+      value: .595588207
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: name_class_onSelect.r
+      value: .0986159071
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: name_class_onSelect.g
+      value: .519974887
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: name_class_onSelect.b
+      value: .558823526
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: bgColor_selected.a
+      value: .216000006
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: bgColor_selected.r
+      value: .415821433
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: bgColor_selected.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: bgColor_selected.b
+      value: .338235319
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: ForbidNames.Array.data[37]
+      value: playbackTime
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 182046}
+  m_IsPrefabParent: 1

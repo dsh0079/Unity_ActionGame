@@ -82,6 +82,10 @@
     <Compile Include="Assets\DTools\InspectorField.cs" />
     <Compile Include="Assets\DTools\PublicDefine.cs" />
     <Compile Include="Assets\DTools\QuickSave.cs" />
+    <Compile Include="Assets\DTools\RuntimeViewer\RVSettingData.cs" />
+    <Compile Include="Assets\DTools\RuntimeViewer\RV_TEST.cs" />
+    <Compile Include="Assets\DTools\RuntimeViewer\RV_TEST2.cs" />
+    <Compile Include="Assets\DTools\RuntimeViewer\RV_TEST3.cs" />
     <Compile Include="Assets\DTools\RuntimeViewer\Test001.cs" />
     <Compile Include="Assets\DTools\RuntimeViewer\Test0099.cs" />
     <Compile Include="Assets\DTools\ShowFPS.cs" />

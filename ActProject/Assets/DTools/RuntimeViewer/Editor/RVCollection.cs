@@ -7,54 +7,66 @@ using System;
 
 public class RVCollection : RVControlBase
 {
-    //Dictionary<string, RVControlBase> children = new Dictionary<string, RVControlBase>();
-    List<RVControlBase> children = new List<RVControlBase>();
+    Dictionary<string, RVControlBase> children = new Dictionary<string, RVControlBase>();
+    bool isFirstOpen = true;
 
-    protected bool isOpen = false;
-    bool isFristOpen = true;
-
-    public RVCollection(object data, int depth, bool isOpen)
-        : base(data, depth)
+    public RVCollection(RuntimeViewer rv , string UID, string nameLabel, object data, int depth, RVVisibility rvVisibility, RVControlBase parent)
+         : base(rv, UID, nameLabel,data, depth, rvVisibility, parent)
     {
-        this.isOpen = isOpen;
-        if (isOpen == true)
-        {
-            AnalyzeAndAddChildren();
-        }
     }
 
-    public override void OnGUIUpdate(object _newData)
+    bool IsFold()
     {
-        EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("     ", GUILayout.Width(depth * RVControlBase.Indent_class));
+        if (rvcStatus.IsOpens.ContainsKey(this.UID) == false)
+            rvcStatus.IsOpens.Add(this.UID, false);
 
+        rvcStatus.IsOpens[this.UID] = CollectionUI(rvcStatus.IsOpens[this.UID], settingData);
+        return rvcStatus.IsOpens[this.UID];
+    }
+
+    public override void OnGUIUpdate(bool isRealtimeUpdate, RVSettingData settingData, RVCStatus rvcStatus)
+    {
+        base.OnGUIUpdate(isRealtimeUpdate, settingData, rvcStatus);
+
+        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.LabelField("     ", GUILayout.Width(depth * RVControlBase.Indent_class+ IndentPlus));
         EditorGUILayout.BeginVertical();
-        isOpen = EditorGUILayout.Foldout(isOpen, NameLabel);
-        if (isOpen == true)
+
+        if (IsFold() == true)
         {
-            //第一次打开时解析
-            if (isFristOpen == true)
+            if (isFirstOpen == true)
             {
-                AnalyzeAndAddChildren();
-                isFristOpen = false;
+                AnalyzeAndCreateChildren();
+                isFirstOpen = false;
             }
-            else
+            else if (isRealtimeUpdate == true)
             {
-                //每帧更新
-                if (_newData != null)
-                {
-                    this.data = _newData;
-                    AnalyzeAndAddChildren();
-                }
+                AnalyzeAndUpdateChildren();
             }
 
             foreach (var item in children)
             {
-                item.OnGUIUpdate(_newData);
+                item.Value.OnGUIUpdate(isRealtimeUpdate, settingData, rvcStatus);
             }
         }
         EditorGUILayout.EndVertical();
         EditorGUILayout.EndHorizontal();
+    }
+
+    public override void OnGUIUpdate_Late()
+    {
+        base.OnGUIUpdate_Late();
+
+        if (rvcStatus.IsOpens.ContainsKey(this.UID) == false)
+            rvcStatus.IsOpens.Add(this.UID, false);
+
+        if (rvcStatus.IsOpens[this.UID] == false)
+            return;
+
+        foreach (var item in children)
+        {
+            item.Value.OnGUIUpdate_Late();
+        }
     }
 
     public override void OnDestroy()
@@ -62,12 +74,12 @@ public class RVCollection : RVControlBase
         foreach (var item in children)
         {
             //item.Value.OnDestroy();
-            item.OnDestroy();
+            item.Value.OnDestroy();
         }
         children.Clear();
     }
 
-    protected virtual void AnalyzeAndAddChildren()
+    void AnalyzeAndCreateChildren()
     {
         OnDestroy();
         if (data == null)
@@ -77,40 +89,101 @@ public class RVCollection : RVControlBase
 
         Type t = data.GetType();
 
-        if (IsCollection(t) == true)
+        if (RVHelper.IsCollection(t) == true)
         {
-            children.AddRange(AnalyzeCollection(data, t));
+            children= AnalyzeCollection(data, t);
         }
         else
         {
-            children.AddRange(AnalyzeClass(data, t));
+            children = AnalyzeClass(data, t);
         }
     }
 
-    RVControlBase CreateControl(object ob, string fieldName)
+    void AnalyzeAndUpdateChildren()
+    {
+        if (data == null)
+        {
+            OnDestroy();
+            return;
+        }
+
+        Type t = data.GetType();
+
+        Dictionary<string, RVControlBase> newChildren = new Dictionary<string, RVControlBase>();
+        if (RVHelper.IsCollection(t) == true)
+        {
+            newChildren = AnalyzeCollection(data, t);
+        }
+        else
+        {
+            newChildren = AnalyzeClass(data, t);
+        }
+
+        foreach (var newItem in newChildren)
+        {
+            if(this.children.ContainsKey(newItem.Key) == true)
+            {//update
+                this.children[newItem.Key].UpdateData(newItem.Value);
+            }
+            else
+            {
+                this.children.Add(newItem.Key, newItem.Value);
+            }
+        }
+    }
+
+    Dictionary<string, RVControlBase> CreateDictionaryItemControl(DictionaryEntry item, int collectionNum = -1)
+    {
+        Dictionary<string, RVControlBase> dicItems = new Dictionary<string, RVControlBase>();
+
+        Type _typeKey = IsNull(item.Key) == false ? item.Key.GetType() : null;
+        RVVisibility rvvKey = new RVVisibility(RVVisibility.NameType.CollectionItem, _typeKey);
+
+        Type _typeValue = IsNull(item.Value) == false ? item.Value.GetType() : null;
+        RVVisibility rvvValue = new RVVisibility(RVVisibility.NameType.CollectionItem, _typeValue);
+         
+        RVControlBase key = CreateControl(item.Key, "┌ key  ┐", rvvKey, collectionNum);
+        dicItems.Add(key.UID,key);
+        RVControlBase _value= CreateControl(item.Value, "└value┘", rvvValue, collectionNum);
+        dicItems.Add(_value.UID,_value);
+
+        //对齐
+        if(key is RVCollection  == true && _value is RVCollection == false)
+        {
+            _value.IndentPlus = 14;
+        }
+        else if (_value is RVCollection == true && key is RVCollection == false)
+        {
+            key.IndentPlus = 14;
+        }
+
+        return dicItems;
+    }
+
+    RVControlBase CreateControl(object ob, string fieldName, RVVisibility rvVisibility, int collectionNum = -1)
     {
         RVControlBase b = null;
+        string nextUID = this.UID + " - " + fieldName;
+        if (collectionNum >= 0)
+            nextUID = this.UID + " - " + fieldName + "[" + collectionNum + "]";
 
         if (IsNull(ob) == true)
         {
-            b = new RVText(null, depth + 1);
-            b.NameLabel = fieldName;
+            b = new RVText(this.rv, nextUID, fieldName, null, depth + 1, rvVisibility, this);
         }
         else
         {
             Type t = ob.GetType();
-            if (t.IsValueType == true)
+            if (RVHelper.IsCanToStringDirently(t) == true)
             {
-                b = new RVText(ob, depth + 1);
-                b.NameLabel = fieldName;
+                b = new RVText(this.rv, nextUID, fieldName, ob, depth + 1, rvVisibility, this);
             }
             else
             {
-                b = TestString(ob, fieldName); //字符串特殊判断
-                if (b != null)
-                    return b;
-                b = new RVCollection(ob, depth + 1, false);
-                b.NameLabel = GetSpecialNameLabel(ob, fieldName);
+                RVVisibility rvv = rvVisibility.GetCopy();
+                if (RVHelper.IsCollection(t) == false)
+                    rvv.RVType = RVVisibility.NameType.Class;
+                b = new RVCollection(this.rv, nextUID, GetSpecialNameLabel(ob, fieldName), ob, depth + 1, rvv, this);
             }
         }
 
@@ -128,20 +201,14 @@ public class RVCollection : RVControlBase
                 return true;
             if (obj is Renderer)
                 return true;
+            if (obj is Collider)
+                return true;
         }
 
-        if (RuntimeViewer.IsForbidSystemProperty == true)
+        if (RuntimeViewer.IsEnableForbidNames == true)
         {
-            if (obj is Component)
-            {
-                if (ForbidSystemProperty.ComponentPropertys.Contains(fieldName) == true)
-                    return true;
-            }
-            else if (obj is GameObject)
-            {
-                if (ForbidSystemProperty.GameObjectPropertys.Contains(fieldName) == true)
-                    return true;
-            }
+            if (this.settingData.IsForbid(fieldName) == true)
+                return true;
         }
         return false;
     }
@@ -149,33 +216,21 @@ public class RVCollection : RVControlBase
     string GetSpecialNameLabel(object ob, string fieldName)
     {
         if (ob == null)
+            return fieldName;
+
+        Type obType = ob.GetType();
+        if (RVHelper.IsCollection(obType) == true)
         {
+            fieldName += " - " + GetTypeName(obType);
             return fieldName;
         }
-        else if (ob is UnityEngine.Object && (ob as UnityEngine.Object) != null)
+
+        if (ob is UnityEngine.Object && (ob as UnityEngine.Object) != null)
         {
-            fieldName += " : " + (ob as UnityEngine.Object).name;
-        }
-        else if (IsCollection(ob.GetType()) == true)
-        {
-            if (typeof(IDictionary).IsAssignableFrom(ob.GetType()) == true)
-                fieldName += " : <dictionary>";
-            else
-                fieldName += " : <collection>";
+            fieldName += " : '" + (ob as UnityEngine.Object).name+"'";
         }
 
         return fieldName;
-    }
-
-    RVControlBase TestString(object ob, string fieldName)
-    {
-        RVControlBase b = null;
-        if (ob is string)
-        {
-            b = new RVText(ob, depth + 1);
-            b.NameLabel = fieldName;
-        }
-        return b;
     }
 
     bool IsNull(object ob)
@@ -192,92 +247,143 @@ public class RVCollection : RVControlBase
         return false;
     }
 
-    //是否是个字典 or 集合
-    bool IsCollection(Type type)
-    {
-        if (typeof(IDictionary).IsAssignableFrom(type) == true ||
-            typeof(ICollection).IsAssignableFrom(type) == true)
-        {
-            return true;
-        }
-        return false;
-    }
-
     //所有集合判断,数组,字典,list等等
-    List<RVControlBase> AnalyzeCollection(object ob, Type type)
+    Dictionary<string, RVControlBase> AnalyzeCollection(object ob, Type type)
     {
-        List<RVControlBase> result = new List<RVControlBase>();
+        Dictionary<string, RVControlBase> result = new Dictionary<string, RVControlBase>();
+        int index = 0;
 
         if (typeof(IDictionary).IsAssignableFrom(type) == true)//是个字典
         {
-
             IDictionary dic = ob as IDictionary;
             foreach (DictionaryEntry item in dic)
             {
-                string _key = "null";
-            //    string _value = "null";
-
-                if (IsNull(item.Key) == false)
-                    _key = item.Key.ToString();
-            //    if (IsNull(item.Value) == false)
-              //      _value = item.Value.ToString();
-
-                result.Add(CreateControl(item.Value, "[" + _key + "]"));
+                foreach (KeyValuePair<string, RVControlBase> item2 in CreateDictionaryItemControl(item, index))
+                {
+                    result.Add(item2.Key, item2.Value);
+                }
+                index++;
             }
         }
         else if (typeof(ICollection).IsAssignableFrom(type) == true) //是个集合
         {
             foreach (var _v in (ICollection)ob)
             {
-                string str = "item";
+                string itemName = "["+index+"]";
+           
+                Type _type = null;
                 if (IsNull(_v) == false)
-                    str = _v.ToString();
-                result.Add(CreateControl(_v, str));
+                    _type = _v.GetType();
+
+                RVVisibility rvv = new RVVisibility(RVVisibility.NameType.CollectionItem, _type);
+                RVControlBase rvc = CreateControl(_v, itemName, rvv, result.Count);
+                index++;
+                result.Add(rvc.UID,rvc);
             }
         }
 
         return result;
     }
 
-    List<RVControlBase> AnalyzeClass(object data, Type t)
+    Dictionary<string, RVControlBase> AnalyzeClass(object data, Type thisType)
     {
-        List<RVControlBase> result = new List<RVControlBase>();
+        Dictionary<string, RVControlBase> result = new Dictionary<string, RVControlBase>();
 
-        FieldInfo[] fields = t.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
-        foreach (FieldInfo field in fields)
+        while (thisType.IsSubclassOf(typeof(object)))
         {
-            if (IsForbidThis(data, field.Name) == true)
+            FieldInfo[] fields = thisType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
+            foreach (FieldInfo field in fields)
             {
-                continue;
-            }
-            object value = field.GetValue(data);
-            result.Add(CreateControl(value, field.Name));
-        }
-
-        PropertyInfo[] properties = t.GetProperties();
-        foreach (PropertyInfo property in properties)
-        {
-            object value = null;
-            try
-            {
-                if (IsForbidThis(data, property.Name) == true)
+                if (IsForbidThis(data, field.Name) == true)
                 {
                     continue;
                 }
-                value = property.GetValue(data, null);
+                object value = field.GetValue(data);
+
+                RVVisibility rvv = new RVVisibility(field, data);
+
+                RVControlBase cb = CreateControl(value, field.Name, rvv, -1);
+                if (result.ContainsKey(cb.UID) == false)
+                    result.Add(cb.UID, cb);
             }
-            catch
+
+            PropertyInfo[] properties = thisType.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
+            foreach (PropertyInfo property in properties)
             {
-                value = null;
+                object value = null;
+                try
+                {
+                    if (IsForbidThis(data, property.Name) == true)
+                    {
+                        continue;
+                    }
+                    value = property.GetValue(data, null);
+                }
+                catch
+                {
+                    value = null;
+                }
+
+                RVVisibility rvv = new RVVisibility(property, data);
+
+                RVControlBase cb = CreateControl(value, property.Name, rvv,-1);
+
+                if (result.ContainsKey(cb.UID) == false)
+                    result.Add(cb.UID,cb);
             }
-            result.Add(CreateControl(value, property.Name));
-        }
-        //
-        //result.Sort((a, b) =>
-        //{
-        //    return string.Compare(a.NameLabel, b.NameLabel, false, System.Globalization.CultureInfo.InvariantCulture);
-        //});
+
+            thisType = thisType.BaseType;
+        } 
 
         return result;
     }
+
+    GUIStyle GetCollectionGUIStyle(RVSettingData settingData)
+    {
+        if (this.rvVisibility.RVType == RVVisibility.NameType.Class)
+            return settingData.Get_name_class(EditorStyles.foldout);
+
+        return settingData.Get_name_container(EditorStyles.foldout);
+    }
+     
+    bool CollectionUI(bool isOpen, RVSettingData settingData)
+    {
+        bool isSelected = this.rvcStatus.IsSelected(this.NameLabel);
+
+        GUIStyle guistyle = settingData.Get_name_container(EditorStyles.foldout);
+
+        if (this.rvVisibility.RVType == RVVisibility.NameType.Class)
+            guistyle = settingData.Get_name_class(EditorStyles.foldout);
+
+        isOpen = EditorGUILayout.Foldout(isOpen, new GUIContent(this.NameLabel), guistyle);
+        nameLabelRect = GUILayoutUtility.GetLastRect();
+        Rect rect = GUILayoutUtility.GetLastRect();
+        RVText.RightClickMenu(rect, 1200, 16, settingData, "Copy", RVText.OnMenuClick_Copy, this.NameLabel, isSelected);
+    //    rect.y += 16;
+    //    RVText.RightClickMenu(rect, 1200, 16, settingData, "ChangeValue", RVText.OnMenuClick_Copy, this.NameLabel, isSelected);
+
+        return isOpen;
+    }
+
+    public static string GetTypeName(Type t)
+    {
+        if (!t.IsGenericType) return t.Name;
+        if (t.IsNested && t.DeclaringType.IsGenericType) throw new NotImplementedException();
+        string txt = t.Name.Substring(0, t.Name.IndexOf('`')) + "<";
+        int cnt = 0;
+        foreach (Type arg in t.GetGenericArguments())
+        {
+            if (cnt > 0) txt += ", ";
+            txt += GetTypeName(arg);
+            cnt++;
+        }
+        return txt + ">";
+    }
+
+    void CollectionMenu(Rect rect, RVSettingData settingData, string name, string value)
+    {
+
+    }
 }
+
+ 
