@@ -82,16 +82,26 @@
     <Compile Include="Assets\DTools\InspectorField.cs" />
     <Compile Include="Assets\DTools\PublicDefine.cs" />
     <Compile Include="Assets\DTools\QuickSave.cs" />
-    <Compile Include="Assets\DTools\RuntimeViewer\RVSettingData.cs" />
-    <Compile Include="Assets\DTools\RuntimeViewer\RV_TEST.cs" />
-    <Compile Include="Assets\DTools\RuntimeViewer\RV_TEST2.cs" />
-    <Compile Include="Assets\DTools\RuntimeViewer\RV_TEST3.cs" />
-    <Compile Include="Assets\DTools\RuntimeViewer\Test001.cs" />
-    <Compile Include="Assets\DTools\RuntimeViewer\Test0099.cs" />
     <Compile Include="Assets\DTools\ShowFPS.cs" />
     <Compile Include="Assets\DTools\ShowMessage.cs" />
     <Compile Include="Assets\DTools\VisualTest.cs" />
     <Compile Include="Assets\DTools\iTween.cs" />
+    <Compile Include="Assets\RuntimeViewer\RVSettingData.cs" />
+    <Compile Include="Assets\RuntimeViewer\RV_TEST.cs" />
+    <Compile Include="Assets\RuntimeViewer\RV_TEST2.cs" />
+    <Compile Include="Assets\RuntimeViewer\RV_TEST3.cs" />
+    <Compile Include="Assets\RuntimeViewer\Test001.cs" />
+    <Compile Include="Assets\RuntimeViewer\Test0099.cs" />
+    <Compile Include="Assets\Scripts\AI\AI.cs" />
+    <Compile Include="Assets\Scripts\AI\AIController.cs" />
+    <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\LiveObjects\AICharater.cs" />
+    <Compile Include="Assets\Scripts\LiveObjects\CharaterBase.cs" />
+    <Compile Include="Assets\Scripts\LiveObjects\LiveObject.cs" />
+    <Compile Include="Assets\Scripts\LiveObjects\PlayerCharater.cs" />
+    <Compile Include="Assets\Scripts\PlayerControl\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\PlayerControl\PlayerInput.cs" />
+    <Compile Include="Assets\WWTest\WWTester.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\DTools\_Plugin\DOTween\DOTween.XML" />

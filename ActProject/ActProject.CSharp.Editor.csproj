@@ -113,15 +113,15 @@
   <ItemGroup>
     <Compile Include="Assets\DTools\Editor\ExtendMenu.cs" />
     <Compile Include="Assets\DTools\Editor\TransformInspector.cs" />
-    <Compile Include="Assets\DTools\RuntimeViewer\Editor\EditorControlBase.cs" />
-    <Compile Include="Assets\DTools\RuntimeViewer\Editor\ForbidSystemProperty.cs" />
-    <Compile Include="Assets\DTools\RuntimeViewer\Editor\HelperWindow.cs" />
-    <Compile Include="Assets\DTools\RuntimeViewer\Editor\RVCollection.cs" />
-    <Compile Include="Assets\DTools\RuntimeViewer\Editor\RVHelper.cs" />
-    <Compile Include="Assets\DTools\RuntimeViewer\Editor\RVInput.cs" />
-    <Compile Include="Assets\DTools\RuntimeViewer\Editor\RVInputCollection.cs" />
-    <Compile Include="Assets\DTools\RuntimeViewer\Editor\RVText.cs" />
-    <Compile Include="Assets\DTools\RuntimeViewer\Editor\RuntimeViewer.cs" />
+    <Compile Include="Assets\RuntimeViewer\Editor\EditorControlBase.cs" />
+    <Compile Include="Assets\RuntimeViewer\Editor\ForbidSystemProperty.cs" />
+    <Compile Include="Assets\RuntimeViewer\Editor\HelperWindow.cs" />
+    <Compile Include="Assets\RuntimeViewer\Editor\RVCollection.cs" />
+    <Compile Include="Assets\RuntimeViewer\Editor\RVHelper.cs" />
+    <Compile Include="Assets\RuntimeViewer\Editor\RVInput.cs" />
+    <Compile Include="Assets\RuntimeViewer\Editor\RVInputCollection.cs" />
+    <Compile Include="Assets\RuntimeViewer\Editor\RVText.cs" />
+    <Compile Include="Assets\RuntimeViewer\Editor\RuntimeViewer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\DTools\_Plugin\DOTween\DOTween.XML" />
