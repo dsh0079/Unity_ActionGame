@@ -99,6 +99,11 @@
     <Compile Include="Assets\Scripts\LiveObjects\CharaterBase.cs" />
     <Compile Include="Assets\Scripts\LiveObjects\LiveObject.cs" />
     <Compile Include="Assets\Scripts\LiveObjects\PlayerCharater.cs" />
+    <Compile Include="Assets\Scripts\PlayerControl\ActionMachine.cs" />
+    <Compile Include="Assets\Scripts\PlayerControl\ActionStateBase.cs" />
+    <Compile Include="Assets\Scripts\PlayerControl\IdleAction.cs" />
+    <Compile Include="Assets\Scripts\PlayerControl\JumpAction.cs" />
+    <Compile Include="Assets\Scripts\PlayerControl\MoveAction.cs" />
     <Compile Include="Assets\Scripts\PlayerControl\PlayerController.cs" />
     <Compile Include="Assets\Scripts\PlayerControl\PlayerInput.cs" />
     <Compile Include="Assets\WWTest\WWTester.cs" />

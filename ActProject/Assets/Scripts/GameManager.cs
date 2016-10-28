@@ -26,7 +26,6 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        VisualTest.AddArrow("InputDirecton", 0.001f, this.Player.transform.position,
-            this.Player.transform.position + PlayerInput.Instance.InputDirecton * 10f,Color.green);
+     
     }
 }

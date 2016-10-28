@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public delegate void OnDeadDel(LiveObject lo);
+
 public class LiveObject : MonoBehaviour
 {
     public int ID { private set; get; }
@@ -8,6 +10,7 @@ public class LiveObject : MonoBehaviour
     public int HP { protected set; get; }
 
     public float DestroyDelay = 3f;
+    public OnDeadDel OnDeadEvent;
 
     public virtual  void Init(int ID, int HP,Vector3 pos)
     {
@@ -32,7 +35,8 @@ public class LiveObject : MonoBehaviour
 
     public virtual void OnDead()
     {
-
+        if (OnDeadEvent != null)
+            OnDeadEvent(this);
     }
 
     public virtual void OnLDestroy()

@@ -11,6 +11,8 @@ public enum PInput
     Move_Right,
     Rush,
     Jump,
+    Run,
+    Roll,
     Acttak01,
     Acttak02,
     Acttak03,
@@ -43,6 +45,21 @@ public class PlayerInput : MonoBehaviour
         inputOnOneFrame.Clear();
 
         InputDirectonUpdate();
+
+        if (Input.GetKey(KeyCode.K))
+        {
+            inputOnOneFrame.Add(PInput.Run);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            inputOnOneFrame.Add(PInput.Jump);
+        }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            inputOnOneFrame.Add(PInput.Roll);
+        }
     }
 
     private void InputDirectonUpdate()
