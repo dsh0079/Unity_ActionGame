@@ -31,15 +31,25 @@ public class RVInputCollection
 
     public void OnGUI()
     {
-        if (GUILayout.Button("Add Item", GUILayout.Width(43)))
+        EditorGUILayout.BeginHorizontal();
+
+        Type t = data.GetType();
+        if (typeof(IDictionary).IsAssignableFrom(t) == true)//是个字典
+        {
+
+        }
+        else if (typeof(ICollection).IsAssignableFrom(t) == true) //是个集合
+        {
+            AddItem_List();
+        }
+
+        if (GUILayout.Button("Cancel", GUILayout.Width(56)))
         {
             onClose();
-            OnSetValue(data, rvVisibility);
         }
-        if (GUILayout.Button("Cancel", GUILayout.Width(53)))
-        {
-            onClose();
-        }
+
+        EditorGUILayout.EndHorizontal();
+
     }
 
     void OnSetValue(object newValue, RVVisibility rvVisibility)
@@ -51,6 +61,17 @@ public class RVInputCollection
         }
     }
     
+    void AddItem_List()
+    {
+        EditorGUILayout.LabelField("   add one item with default value ? ", GUILayout.Width(206));
+
+        if (GUILayout.Button("Add", GUILayout.Width(66)))
+        {
+            onClose();
+            OnSetValue(data, rvVisibility);
+        }
+    }
+
     void ErrorLog(string str, Exception e)
     {
         if (e != null)

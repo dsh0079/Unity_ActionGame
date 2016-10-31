@@ -20,11 +20,13 @@ public class RuntimeViewer :  EditorWindow, IHasCustomMenu
      * 6.  数组和集合和完全不同
      * 6.1 新建, 设置长度
      * 6.2 修改长度
+     * 
+     * 7. 未完成功能 : 集合中的元素无法修改值!
      */
 
 
     readonly string _ver = " ver 1.02 ";
-    readonly string _lastChange = "<###0079091>";
+    readonly string _lastChange = "<###0079092>";
     readonly int space_vertical = 8;
 
     public bool IsRealtimeUpdate = true;

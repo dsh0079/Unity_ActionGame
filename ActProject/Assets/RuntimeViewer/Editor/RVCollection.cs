@@ -10,6 +10,8 @@ public class RVCollection : RVControlBase
     Dictionary<string, RVControlBase> children = new Dictionary<string, RVControlBase>();
     bool isFirstOpen = true;
 
+    RVInputCollection rvInputCollection;
+
     public RVCollection(RuntimeViewer rv , string UID, string nameLabel, object data, int depth, RVVisibility rvVisibility, RVControlBase parent)
          : base(rv, UID, nameLabel,data, depth, rvVisibility, parent)
     {
@@ -34,6 +36,9 @@ public class RVCollection : RVControlBase
 
         if (IsFold() == true)
         {
+            if (this.rvInputCollection != null)
+                rvInputCollection.OnGUI();
+
             if (isFirstOpen == true)
             {
                 AnalyzeAndCreateChildren();
@@ -49,6 +54,12 @@ public class RVCollection : RVControlBase
                 item.Value.OnGUIUpdate(isRealtimeUpdate, settingData, rvcStatus);
             }
         }
+        else
+        {
+            if (this.rvInputCollection != null)
+                rvInputCollection.OnGUI();
+        }
+
         EditorGUILayout.EndVertical();
         EditorGUILayout.EndHorizontal();
     }
@@ -358,9 +369,10 @@ public class RVCollection : RVControlBase
         isOpen = EditorGUILayout.Foldout(isOpen, new GUIContent(this.NameLabel), guistyle);
         nameLabelRect = GUILayoutUtility.GetLastRect();
         Rect rect = GUILayoutUtility.GetLastRect();
-        RVText.RightClickMenu(rect, 1200, 16, settingData, "Copy", RVText.OnMenuClick_Copy, this.NameLabel, isSelected);
-    //    rect.y += 16;
-    //    RVText.RightClickMenu(rect, 1200, 16, settingData, "ChangeValue", RVText.OnMenuClick_Copy, this.NameLabel, isSelected);
+        CollectionMenu(rect, settingData, isSelected);
+        //RVText.RightClickMenu(rect, 1200, 16, settingData, "Copy", RVText.OnMenuClick_Copy, this.NameLabel, isSelected);
+        //    rect.y += 16;
+        //    RVText.RightClickMenu(rect, 1200, 16, settingData, "ChangeValue", RVText.OnMenuClick_Copy, this.NameLabel, isSelected);
 
         return isOpen;
     }
@@ -380,9 +392,37 @@ public class RVCollection : RVControlBase
         return txt + ">";
     }
 
-    void CollectionMenu(Rect rect, RVSettingData settingData, string name, string value)
+    void CollectionMenu(Rect rect, RVSettingData settingData, bool isSelected)
     {
+        Event currentEvent = Event.current;
+        Rect contextRect = new Rect(rect.x, rect.y, 1200, 16);
+        if (isSelected == true)
+            EditorGUI.DrawRect(contextRect, settingData.bgColor_selected);
+        else
+            EditorGUI.DrawRect(contextRect, new Color(0, 0, 0, 0));
 
+        if (currentEvent.type == EventType.ContextClick)
+        {
+            Vector2 mousePos = currentEvent.mousePosition;
+            if (contextRect.Contains(mousePos))
+            {
+                // Now create the menu, add items and show it
+                GenericMenu menu = new GenericMenu();
+                menu.AddItem(new GUIContent("Copy"), false, RVText.OnMenuClick_Copy, this.NameLabel);
+                menu.AddItem(new GUIContent("Add Item"), false, delegate(object obj) 
+                {
+                    this.rvInputCollection = new RVInputCollection(this.rv, this.NameLabel, this.GetNamePath(), this.data, this.Parent, settingData, this.rvVisibility,
+                    delegate ()
+                    {
+                        this.rvInputCollection = null;
+                    });
+                }, this.NameLabel);
+
+
+                menu.ShowAsContext();
+                currentEvent.Use();
+            }
+        }
     }
 }
 
