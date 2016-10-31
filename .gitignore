@@ -1,3 +1,6 @@
 ActProject/Library
 ActProject/.vs
 ActProject/Temp
+ActProject/ActProject.CSharp.csproj
+ActProject/ActProject.CSharp.Editor.csproj
+ActProject/ProjectSettings/ProjectVersion.txt
