@@ -5,7 +5,7 @@ public class ActionStateBase
 {
     public ActionState State { private set; get; }
     protected ActionMachine am { private set; get; }
-    protected CharaterBase chara { get { return am.Charater; } }
+    protected PlayerCharater chara { get { return am.Charater as PlayerCharater; } }
 
     public ActionStateBase(ActionState state, ActionMachine am)
     {
