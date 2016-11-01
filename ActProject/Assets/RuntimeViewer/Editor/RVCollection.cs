@@ -31,13 +31,11 @@ public class RVCollection : RVControlBase
         base.OnGUIUpdate(isRealtimeUpdate, settingData, rvcStatus);
 
         EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("     ", GUILayout.Width(depth * RVControlBase.Indent_class+ IndentPlus));
+        EditorGUILayout.LabelField("     ", GUILayout.Width(depth * RVControlBase.Indent_class + IndentPlus));
         EditorGUILayout.BeginVertical();
 
         if (IsFold() == true)
         {
-            if (this.rvInputCollection != null)
-                rvInputCollection.OnGUI();
 
             if (isFirstOpen == true)
             {
@@ -54,11 +52,9 @@ public class RVCollection : RVControlBase
                 item.Value.OnGUIUpdate(isRealtimeUpdate, settingData, rvcStatus);
             }
         }
-        else
-        {
-            if (this.rvInputCollection != null)
-                rvInputCollection.OnGUI();
-        }
+
+        if (this.rvInputCollection != null)
+            rvInputCollection.OnGUI();
 
         EditorGUILayout.EndVertical();
         EditorGUILayout.EndHorizontal();

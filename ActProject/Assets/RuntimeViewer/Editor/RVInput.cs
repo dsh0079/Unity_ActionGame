@@ -35,38 +35,7 @@ public class RVInput
         {
             EditorGUILayout.BeginHorizontal();
 
-            if (rvVisibility.ValueIsString() == true)
-            {
-                data = Intput_String(data);
-            }
-            else if (rvVisibility.ValueIsNumeric() == true)
-            {
-                data = Intput_Numeric(data);
-            }
-            else if (rvVisibility.ValueIsEnum() == true)
-            {
-                data = Intput_Enum(data);
-            }
-            else if (rvVisibility.ValueIsBool() == true)
-            {
-                data = Intput_Bool(data);
-            }
-            else if (rvVisibility.ValueIsVector() == true)
-            {
-                data = Intput_Vector(data);
-            }
-            else if (rvVisibility.ValueIsColor() == true)
-            {
-                data = Intput_Color(data);
-            }
-            else if (this.data == null)
-            {
-                data = Intput_New(data);
-            }
-            else
-            {
-                EditorGUILayout.LabelField(new GUIContent("error : not support ..."));
-            }
+            Intput_Value(ref this.data, this.rvVisibility);
 
             Rect rect = GUILayoutUtility.GetLastRect();
             rect.y -= 1;
@@ -142,7 +111,7 @@ public class RVInput
             Debug.LogError("RuntimeViewer ChangeValue Failure : " + str + "\n");
     }
 
-    object Intput_String(object obj)
+    static object Intput_String(object obj, RVVisibility rvVisibility)
     {
         string str = "";
         if (obj != null)  //nullに設定できない！
@@ -153,7 +122,7 @@ public class RVInput
     }
 
     //nullかないの数　int,floatなと
-    object Intput_Numeric(object obj)
+    static object Intput_Numeric(object obj, RVVisibility rvVisibility)
     {
         if (obj == null)
         {
@@ -161,17 +130,17 @@ public class RVInput
             return false;
         }
 
-        if (this.rvVisibility.ValueIsFloat() == true)
+        if (rvVisibility.ValueIsFloat() == true)
         {
             float _float = Convert.ToSingle(obj);
             return EditorGUILayout.FloatField(_float, GUILayout.MaxWidth(180), GUILayout.MinWidth(10));
         }
-        else if (this.rvVisibility.ValueIsDouble() == true)
+        else if (rvVisibility.ValueIsDouble() == true)
         {
             double _double = Convert.ToDouble(obj);
             return EditorGUILayout.DoubleField(_double, GUILayout.MaxWidth(180), GUILayout.MinWidth(10));
         }
-        else if (this.rvVisibility.ValueIsLong() == true)
+        else if (rvVisibility.ValueIsLong() == true)
         {
             long _long = Convert.ToInt64(obj);
             return EditorGUILayout.LongField(_long, GUILayout.MaxWidth(180), GUILayout.MinWidth(10));
@@ -185,7 +154,7 @@ public class RVInput
         }
     }
 
-    object Intput_Enum(object obj)
+    static object Intput_Enum(object obj, RVVisibility rvVisibility)
     {
         if (obj == null)
         {
@@ -193,12 +162,12 @@ public class RVInput
             return false;
         }
 
-        Enum _enum = (Enum)Convert.ChangeType(obj, this.rvVisibility.ValueType);
+        Enum _enum = (Enum)Convert.ChangeType(obj, rvVisibility.ValueType);
         _enum = EditorGUILayout.EnumPopup(_enum);
         return _enum;
     }
 
-    object Intput_Bool(object obj)
+    static object Intput_Bool(object obj, RVVisibility rvVisibility)
     {
         if (obj == null)
         {
@@ -213,7 +182,7 @@ public class RVInput
         return select == 1 ? true : false;
     }
 
-    object Intput_Vector(object obj)
+    static object Intput_Vector(object obj, RVVisibility rvVisibility)
     {
         if (obj == null)
         {
@@ -221,15 +190,15 @@ public class RVInput
             return false;
         }
 
-        if (typeof(Vector2).IsAssignableFrom(this.rvVisibility.ValueType) == true)
+        if (typeof(Vector2).IsAssignableFrom(rvVisibility.ValueType) == true)
         {
             return EditorGUILayout.Vector2Field("", (Vector2)Convert.ChangeType(obj, typeof(Vector2)));
         }
-        else if (typeof(Vector3).IsAssignableFrom(this.rvVisibility.ValueType) == true)
+        else if (typeof(Vector3).IsAssignableFrom(rvVisibility.ValueType) == true)
         {
             return EditorGUILayout.Vector3Field("", (Vector3)Convert.ChangeType(obj, typeof(Vector3)));
         }
-        else if (typeof(Vector4).IsAssignableFrom(this.rvVisibility.ValueType) == true)
+        else if (typeof(Vector4).IsAssignableFrom(rvVisibility.ValueType) == true)
         {
             return EditorGUILayout.Vector4Field("   ", (Vector4)Convert.ChangeType(obj, typeof(Vector4)));
         }
@@ -237,7 +206,7 @@ public class RVInput
         return obj;
     }
 
-    object Intput_Color(object obj)
+    static object Intput_Color(object obj, RVVisibility rvVisibility)
     {
         if (obj == null)
         {
@@ -247,11 +216,11 @@ public class RVInput
 
         try
         {
-            if (typeof(Color).IsAssignableFrom(this.rvVisibility.ValueType) == true)
+            if (typeof(Color).IsAssignableFrom(rvVisibility.ValueType) == true)
             {
                 return EditorGUILayout.ColorField((Color)Convert.ChangeType(obj, typeof(Color)), GUILayout.Width(120));
             }
-            else if (typeof(Color32).IsAssignableFrom(this.rvVisibility.ValueType) == true)
+            else if (typeof(Color32).IsAssignableFrom(rvVisibility.ValueType) == true)
             {
                 return (Color32)EditorGUILayout.ColorField((Color32)Convert.ChangeType(obj, typeof(Color32)), GUILayout.Width(120));
             }
@@ -264,10 +233,46 @@ public class RVInput
         return obj;
     }
 
-    object Intput_New(object obj)
+    static object Intput_New(object obj, RVVisibility rvVisibility)
     {
         EditorGUILayout.LabelField(new GUIContent("click apply to create new instance"), GUILayout.Width(198));
         return obj;
+    }
+
+    public static void Intput_Value(ref object data, RVVisibility rvVisibility)
+    {
+        if (rvVisibility.ValueIsString() == true)
+        {
+            data = Intput_String(data, rvVisibility);
+        }
+        else if (rvVisibility.ValueIsNumeric() == true)
+        {
+            data = Intput_Numeric(data, rvVisibility);
+        }
+        else if (rvVisibility.ValueIsEnum() == true)
+        {
+            data = Intput_Enum(data, rvVisibility);
+        }
+        else if (rvVisibility.ValueIsBool() == true)
+        {
+            data = Intput_Bool(data, rvVisibility);
+        }
+        else if (rvVisibility.ValueIsVector() == true)
+        {
+            data = Intput_Vector(data, rvVisibility);
+        }
+        else if (rvVisibility.ValueIsColor() == true)
+        {
+            data = Intput_Color(data, rvVisibility);
+        }
+        else if (data == null)
+        {
+            data = Intput_New(data, rvVisibility);
+        }
+        else
+        {
+            EditorGUILayout.LabelField(new GUIContent("error : not support ..."));
+        }
     }
 
     void Cancel()

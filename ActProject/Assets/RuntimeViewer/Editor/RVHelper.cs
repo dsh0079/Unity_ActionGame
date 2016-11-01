@@ -114,4 +114,43 @@ public static class RVHelper
 
     // Method where you know the type and the type code of the object
     public static bool IsNumeric(Type type, TypeCode typeCode) { return (typeCode == TypeCode.Decimal || (type.IsPrimitive && typeCode != TypeCode.Object && typeCode != TypeCode.Boolean && typeCode != TypeCode.Char)); }
+
+    public static Type GetCollectionItemType(ICollection iCollection)
+    {
+        Type[] ts = iCollection.GetType().GetGenericArguments();
+        if (ts.Length > 0)
+        {
+            return ts[0];
+        }
+
+        return null;
+    }
+
+    public static object DefaultForType(Type targetType)
+    {
+        return targetType.IsValueType ? Activator.CreateInstance(targetType) : null;
+    }
+
+    public static Type GetDictionaryKeyType(IDictionary dic)
+    {
+        Type[] ts = dic.GetType().GetGenericArguments();
+        if (ts.Length ==2)
+        {
+            return ts[0];
+        }
+
+        return null;
+    }
+
+    public static Type GetDictionaryValueType(IDictionary dic)
+    {
+        Type[] ts = dic.GetType().GetGenericArguments();
+        if (ts.Length == 2)
+        {
+            return ts[1];
+        }
+
+        return null;
+    }
+
 }

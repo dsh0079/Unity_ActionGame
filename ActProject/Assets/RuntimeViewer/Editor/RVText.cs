@@ -263,6 +263,11 @@ public class RVVisibility
     /// </summary>
     public object ParentData { get; private set; }
 
+    public RVVisibility(Type v)
+    {
+        this.ValueType = v;
+    }
+
     public RVVisibility(NameType n, Type v)
     {
         this.RVType = n;
